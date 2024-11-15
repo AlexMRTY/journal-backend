@@ -1,6 +1,6 @@
 package com.asifshirvan.journal_backend.mappers;
 
-import com.asifshirvan.journal_backend.dtos.PatientDTO;
+import com.asifshirvan.journal_backend.dto.PatientDTO;
 import com.asifshirvan.journal_backend.models.Patient;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -2,6 +2,7 @@ package com.asifshirvan.journal_backend.services;
 
 import com.asifshirvan.journal_backend.models.Practitioner;
 import com.asifshirvan.journal_backend.repositories.PractitionerRepository;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public class PractitionerService implements IPractitionerService {
         try {
             List<Practitioner> practitioners = practitionerRepository.findAll();
             return practitioners;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (JpaSystemException e) {
+            // Handle JPA system exceptions
+            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
         }
     }
 

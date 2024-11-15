@@ -1,9 +1,7 @@
-package com.asifshirvan.journal_backend.dtos;
+package com.asifshirvan.journal_backend.dto;
 
 import com.asifshirvan.journal_backend.enums.Gender;
 import com.asifshirvan.journal_backend.enums.MaritalStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

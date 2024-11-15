@@ -1,12 +1,12 @@
 
 ### Create Patients
 GET localhost:8080/patients
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2lmcmV6YWkyNjFAZ21haWwuY29tIiwiaWF0IjoxNzMxNjc2NTAxLCJleHAiOjE3MzE3MTI1MDF9.5ZSLN29L117Pj9e1iPyIYfcNWpxBmPGr8HSs4amEIhk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcmljYmFuZTAzQGdtYWlsLmNvbSIsImlhdCI6MTczMTY5MTUwMywiZXhwIjoxNzMxNzI3NTAzfQ.x5_dy29gR5pv4GFy9QQ0O0xVxXmYGplNw9Ssafna-nQ
 
 ### Create Patient Hardcoded
 POST localhost:8080/createPatient
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2lmcmV6YWkyNjFAZ21haWwuY29tIiwiaWF0IjoxNzMxNjczNzkxLCJleHAiOjE3MzE3MDk3OTF9.ONhR1dSasVLzIYbNgB1fmvwA3TpVsPEVw8OOtaiJ0xk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcmljYmFuZTAzQGdtYWlsLmNvbSIsImlhdCI6MTczMTY5MTUwMywiZXhwIjoxNzMxNzI3NTAzfQ.x5_dy29gR5pv4GFy9QQ0O0xVxXmYGplNw9Ssafna-nQ
 
 {
   "id": 1,
@@ -32,8 +32,8 @@ POST localhost:8080/api/v1/auth/authenticate
 Content-Type: application/json
 
 {
-  "email": "asifrezai261@gmail.com",
-  "password": "admin"
+  "email": "ericbane03@gmail.com",
+  "password": "doctor"
 }
 
 

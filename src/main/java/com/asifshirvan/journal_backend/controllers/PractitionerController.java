@@ -29,15 +29,14 @@ public class PractitionerController {
 
     @GetMapping("/create-practitioner")
     public Practitioner createPractitioner() {
-        Practitioner practitioner = new Practitioner();
-        practitioner.setFirstName("John");
-        practitioner.setLastName("Doe");
-        practitioner.setActive(true);
-        practitioner.setAddress("123 Main St");
-        practitioner.setGender(Gender.FEMALE);
-        practitioner.setRole(Role.DOCTOR);
-        practitioner.setWorkEmail("example@gmail.com");
-
+        Practitioner practitioner = Practitioner.builder()
+                .active(true)
+                .firstName("John")
+                .lastName("Doe")
+                .workEmail("johnDoe69@gmail.com")
+                .address("Main street 69")
+                .role(Role.DOCTOR)
+                .build();
         return practitionerService.createPractitioner(practitioner);
     }
 

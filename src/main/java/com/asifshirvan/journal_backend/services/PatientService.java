@@ -1,18 +1,26 @@
 package com.asifshirvan.journal_backend.services;
 
-import com.asifshirvan.journal_backend.dtos.PatientDTO;
+import com.asifshirvan.journal_backend.exceptions.JpaException;
+import com.asifshirvan.journal_backend.exceptions.PatientAlreadyExistsException;
+import com.asifshirvan.journal_backend.dto.PatientDTO;
+import com.asifshirvan.journal_backend.exceptions.PatientNotFoundException;
 import com.asifshirvan.journal_backend.mappers.PatientMapper;
 import com.asifshirvan.journal_backend.models.Patient;
 import com.asifshirvan.journal_backend.repositories.PatientRepository;
+import com.asifshirvan.journal_backend.services.interfaces.IPatientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerErrorException;
 
+import java.rmi.UnexpectedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PatientService {
+@Slf4j
+public class PatientService implements IPatientService {
 
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper = PatientMapper.INSTANCE;
@@ -33,7 +41,8 @@ public class PatientService {
                     .collect(Collectors.toList());
         } catch (JpaSystemException e) {
             // Handle JPA system exceptions
-            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
+            log.error("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while fetching patients.");
         }
     }
 
@@ -46,15 +55,17 @@ public class PatientService {
     public PatientDTO getPatientByPersonalNumber(String personalNumber) {
         try {
             Patient patient = patientRepository.findByPersonalNumber(personalNumber)
-                    .orElseThrow(() -> new RuntimeException("Patient with personal number " + personalNumber + " not found."));
+                    .orElseThrow(() -> {
+                        log.warn("Patient with personal number " + personalNumber + " not found.");
+                        return new PatientNotFoundException("Patient with personal number " + personalNumber + " not found.");
+                    });
             return patientMapper.patientToPatientDTO(patient);
         } catch (JpaSystemException e) {
             // Handle JPA system exceptions
-            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
+            log.error("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while fetching patient.");
         }
     }
-
-
 
     /**
      * Create a new patient.
@@ -67,11 +78,13 @@ public class PatientService {
 
         try {
             if (patientRepository.existsByPersonalNumber(patient.getPersonalNumber())) {
-                throw new RuntimeException("Patient with personal number " + patient.getPersonalNumber() + " already exists.");
+                log.warn("Patient with personal number " + patient.getPersonalNumber() + " already exists.");
+                throw new PatientAlreadyExistsException("Patient with personal number " + patient.getPersonalNumber() + " already exists.");
             }
         } catch (JpaSystemException e) {
             // Handle JPA system exceptions
-            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
+            log.error("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while creating patient.");
         }
 
         return savePatient(patient);
@@ -87,13 +100,36 @@ public class PatientService {
         // Look if the patient exists
         try {
             Patient existingPatient = patientRepository.findById(patient.getId())
-                    .orElseThrow(() -> new RuntimeException("Patient with id " + patient.getId() + " not found."));
+                    .orElseThrow(() -> {
+                        log.warn("Patient with id " + patient.getId() + " not found.");
+                        return new PatientNotFoundException("Patient with id " + patient.getId() + " not found.");
+                    });
         } catch (JpaSystemException e) {
             // Handle JPA system exceptions
-            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
+            log.error("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while updating patient.");
         }
 
         return savePatient(patient);
+    }
+
+    /**
+     * Delete a patient.
+     * @param id The id of the patient to be deleted.
+     */
+    public boolean deletePatient(Long id) {
+        try {
+            if (!patientRepository.existsById(id)) {
+                log.warn("Patient with id " + id + " not found.");
+                throw new PatientNotFoundException("Patient with id " + id + " not found.");
+            }
+            patientRepository.deleteById(id);
+            return true;
+        } catch (JpaSystemException e) {
+            // Handle JPA system exceptions
+            log.warn("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while deleting patient.");
+        }
     }
 
     /**
@@ -107,10 +143,12 @@ public class PatientService {
             return patientMapper.patientToPatientDTO(updatedPatient);
         } catch (DataIntegrityViolationException e) {
             // Handle unique constraint violations or other data integrity issues
-            throw new RuntimeException("Data integrity violation: " + e.getMessage(), e);
+            log.warn("Data integrity violation: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while saving patient.");
         } catch (JpaSystemException e) {
             // Handle JPA system exceptions
-            throw new RuntimeException("JPA system error: " + e.getMessage(), e);
+            log.error("JPA system error: " + e.getMessage(), e);
+            throw new JpaException("An error occurred while saving patient.");
         }
     }
 }

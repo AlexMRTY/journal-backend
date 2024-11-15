@@ -1,10 +1,7 @@
 package com.asifshirvan.journal_backend.controllers;
 
 
-import com.asifshirvan.journal_backend.dtos.PatientDTO;
-import com.asifshirvan.journal_backend.enums.Gender;
-import com.asifshirvan.journal_backend.enums.MaritalStatus;
-import com.asifshirvan.journal_backend.models.Patient;
+import com.asifshirvan.journal_backend.dto.PatientDTO;
 import com.asifshirvan.journal_backend.services.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @RestController
