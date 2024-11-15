@@ -1,0 +1,50 @@
+
+### Create Patients
+GET localhost:8080/patients
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2lmcmV6YWkyNjFAZ21haWwuY29tIiwiaWF0IjoxNzMxNjc2NTAxLCJleHAiOjE3MzE3MTI1MDF9.5ZSLN29L117Pj9e1iPyIYfcNWpxBmPGr8HSs4amEIhk
+
+### Create Patient Hardcoded
+POST localhost:8080/createPatient
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2lmcmV6YWkyNjFAZ21haWwuY29tIiwiaWF0IjoxNzMxNjczNzkxLCJleHAiOjE3MzE3MDk3OTF9.ONhR1dSasVLzIYbNgB1fmvwA3TpVsPEVw8OOtaiJ0xk
+
+{
+  "id": 1,
+  "firstName": "Joh",
+  "lastName": "Doe",
+  "gender": "MALE",
+  "personalNumber": "12349856-7890",
+  "phone": "1234586849",
+  "birthDate": "2024-01-01",
+  "address": "123 Main St",
+  "maritalStatus": "SINGLE"
+}
+
+### Get Practitioners
+GET localhost:8080/practitioners
+
+### Create Practitioner Hardcoded
+GET localhost:8080/create-practitioner
+
+
+### Login User
+POST localhost:8080/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "asifrezai261@gmail.com",
+  "password": "admin"
+}
+
+
+### Create User
+POST localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "ericbane03@gmail.com",
+  "password": "doctor",
+  "firstName": "Eric",
+  "lastName": "Bane",
+  "role": "DOCTOR"
+}
